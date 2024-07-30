@@ -1,0 +1,187 @@
+Criar uma calculadora com React é uma excelente maneira de praticar e demonstrar habilidades em desenvolvimento de frontend com React. Vamos criar uma calculadora simples que pode realizar operações básicas como adição, subtração, multiplicação e divisão.
+
+### Configuração do Ambiente
+
+Primeiro, certifique-se de que você tem o Node.js instalado. Se não tiver, faça o download e instale-o a partir do [site oficial do Node.js](https://nodejs.org/).
+
+### Criando o Projeto React
+
+1. **Crie um novo projeto React usando `create-react-app`:**
+
+   ```bash
+   npx create-react-app react-calculadora
+   cd react-calculadora
+   ```
+
+2. **Inicie o servidor de desenvolvimento:**
+
+   ```bash
+   npm start
+   ```
+
+### Estrutura do Projeto
+
+Vamos organizar o nosso código da seguinte forma:
+- `App.js`: Componente principal.
+- `Calculator.js`: Componente da calculadora.
+- `Button.js`: Componente para os botões da calculadora.
+- `Display.js`: Componente para o display da calculadora.
+
+### Implementando os Componentes
+
+#### `Button.js`
+
+```jsx
+import React from 'react';
+
+const Button = ({ label, handleClick }) => {
+  return (
+    <button onClick={() => handleClick(label)}>
+      {label}
+    </button>
+  );
+};
+
+export default Button;
+```
+
+#### `Display.js`
+
+```jsx
+import React from 'react';
+
+const Display = ({ value }) => {
+  return (
+    <div className="display">
+      {value}
+    </div>
+  );
+};
+
+export default Display;
+```
+
+#### `Calculator.js`
+
+```jsx
+import React, { useState } from 'react';
+import Button from './Button';
+import Display from './Display';
+
+const Calculator = () => {
+  const [input, setInput] = useState('');
+  const [result, setResult] = useState('');
+
+  const handleClick = (label) => {
+    if (label === '=') {
+      try {
+        setResult(eval(input)); // Nota: eval pode ser perigoso e deve ser usado com cuidado
+      } catch (error) {
+        setResult('Erro');
+      }
+    } else if (label === 'C') {
+      setInput('');
+      setResult('');
+    } else {
+      setInput(input + label);
+    }
+  };
+
+  return (
+    <div className="calculator">
+      <Display value={input || '0'} />
+      <Display value={result} />
+      <div className="buttons">
+        {['1', '2', '3', '+', '4', '5', '6', '-', '7', '8', '9', '*', 'C', '0', '=', '/'].map((label) => (
+          <Button key={label} label={label} handleClick={handleClick} />
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default Calculator;
+```
+
+#### `App.js`
+
+```jsx
+import React from 'react';
+import Calculator from './Calculator';
+import './App.css';
+
+const App = () => {
+  return (
+    <div className="App">
+      <Calculator />
+    </div>
+  );
+};
+
+export default App;
+```
+
+### Estilizando a Calculadora
+
+Para estilizar a calculadora, crie um arquivo `App.css`:
+
+```css
+.App {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f0f0f0;
+}
+
+.calculator {
+  border: 1px solid #ccc;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.display {
+  background-color: #222;
+  color: #fff;
+  font-size: 2rem;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  text-align: right;
+}
+
+.buttons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+button {
+  padding: 20px;
+  font-size: 1.5rem;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #ddd;
+}
+```
+
+### Rodando o Projeto
+
+Agora, para rodar o projeto, execute:
+
+```bash
+npm start
+```
+
+Você verá a calculadora funcionando no navegador. Esta calculadora permite realizar operações básicas e tem uma interface simples, mas funcional.
+
+### Conclusão
+
+Este projeto de calculadora com React demonstra como criar componentes reutilizáveis e gerenciar o estado da aplicação. Você pode expandir essa calculadora adicionando mais funcionalidades, como operações avançadas, histórico de cálculos, etc.
